@@ -36,6 +36,7 @@ fun SingleIconTopBar(
     ) {
         LocationAndDate(title, subtitle)
         CustomIconButton(
+            modifier = Modifier,
             onClick = {
                 onMenuClick()
             },

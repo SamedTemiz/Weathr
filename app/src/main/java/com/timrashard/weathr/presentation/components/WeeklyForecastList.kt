@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,60 +24,55 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.timrashard.weathr.R
-import com.timrashard.weathr.presentation.theme.WeathrTheme
+import com.timrashard.weathr.data.model.Day
+import com.timrashard.weathr.utils.DateTimeUtils
 
 @Composable
-fun DailyForecastList() {
+fun WeeklyForecastList(dayList: List<Day>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        verticalArrangement = Arrangement.SpaceEvenly
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(7) { data ->
-            DayItem()
+        itemsIndexed(dayList) { index, data ->
+            DayItem(data, isFirst = index == 0)
         }
     }
 }
 
 @Composable
-fun DayItem() {
+fun DayItem(day: Day, isFirst: Boolean = false) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
+            .fillMaxWidth().padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Wednesday",
+            text = if(isFirst) DateTimeUtils.getLocalizedTodayName() else DateTimeUtils.getDayName(day.datetime),
             style = TextStyle(
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.tertiary
             ),
             modifier = Modifier.weight(1f)
         )
 
-        Spacer(modifier = Modifier.width(16.dp))
-
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.weight(1f)
+            horizontalArrangement = Arrangement.SpaceAround,
+            modifier = Modifier.weight(2f)
         ) {
             Text(
-                text = "15°",
+                text = "${day.tempmin.toInt()}°",
                 style = TextStyle(
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     color = Color.Gray
                 )
             )
-
-            Spacer(modifier = Modifier.width(8.dp))
 
             Box(
                 modifier = Modifier
@@ -88,7 +83,8 @@ fun DayItem() {
                 Box(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .width(((21 - 15) * 10).dp)
+                        .align(Alignment.Center)
+                        .width(((day.tempmax - day.tempmin) * 10).dp)
                         .background(
                             brush = Brush.horizontalGradient(
                                 colors = listOf(Color(0xFF80ED99), Color(0xFF00FFC6), Color(0xFF30AADD))
@@ -98,40 +94,20 @@ fun DayItem() {
                 )
             }
 
-            Spacer(modifier = Modifier.width(8.dp))
-
             Text(
-                text = "21°",
+                text = "${day.tempmax.toInt()}°",
                 style = TextStyle(
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     color = MaterialTheme.colorScheme.tertiary
                 )
             )
         }
 
-        Spacer(modifier = Modifier.width(16.dp))
-
         Image(
-            painter = painterResource(id = R.drawable.rain),
+            painter = painterResource(id = R.drawable.ic_rain),
             contentDescription = null,
-            modifier = Modifier.size(36.dp),
+            modifier = Modifier.size(34.dp),
             contentScale = ContentScale.Fit
         )
-    }
-}
-
-@Preview
-@Composable
-fun DaylyForecastListPreview() {
-    WeathrTheme {
-        DailyForecastList()
-    }
-}
-
-@Preview
-@Composable
-fun DayItemPreview() {
-    WeathrTheme {
-        DayItem()
     }
 }

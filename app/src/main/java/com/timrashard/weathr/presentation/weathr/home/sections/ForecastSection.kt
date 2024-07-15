@@ -1,7 +1,6 @@
 package com.timrashard.weathr.presentation.weathr.home.sections
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,24 +12,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -39,16 +30,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.timrashard.weathr.R
 import com.timrashard.weathr.data.model.Day
-import com.timrashard.weathr.data.model.Hour
-import com.timrashard.weathr.presentation.components.DailyForecastItem
 import com.timrashard.weathr.presentation.components.DailyForecastList
 import com.timrashard.weathr.presentation.components.HourlyForecastList
-import com.timrashard.weathr.presentation.theme.AppTypography
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -58,7 +46,11 @@ import kotlinx.coroutines.launch
 fun ForecastSection(
     days: List<Day>
 ) {
-    val tabs = listOf("Today", "Tomorrow", "Next 10 days")
+    val tabs = listOf(
+        stringResource(id = R.string.today),
+        stringResource(id = R.string.tomorrow),
+        stringResource(id = R.string.next_14_days),
+    )
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
 
@@ -99,7 +91,9 @@ fun Tabs(
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(32.dp)
     ) {
         tabs.forEachIndexed { index, title ->
@@ -115,7 +109,8 @@ fun Tabs(
             ) {
                 Text(
                     text = title,
-                    color = if (selectedTab == index) MaterialTheme.colorScheme.tertiary else Color.Gray
+                    color = if (selectedTab == index) MaterialTheme.colorScheme.tertiary else Color.Gray,
+                    fontSize = 18.sp
                 )
                 if (selectedTab == index) {
                     Spacer(modifier = Modifier.height(4.dp))

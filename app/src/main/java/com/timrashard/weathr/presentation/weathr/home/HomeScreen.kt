@@ -2,9 +2,7 @@ package com.timrashard.weathr.presentation.weathr.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -19,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.timrashard.weathr.BuildConfig
 import com.timrashard.weathr.common.Resource
+import com.timrashard.weathr.presentation.components.AnimatedShimmer
 import com.timrashard.weathr.presentation.components.SingleIconTopBar
 import com.timrashard.weathr.presentation.components.WeatherDetailsCard
 import com.timrashard.weathr.presentation.theme.WeathrTheme
@@ -29,6 +27,7 @@ import com.timrashard.weathr.presentation.weathr.WeatherViewModel
 import com.timrashard.weathr.presentation.weathr.home.sections.ForecastSection
 import com.timrashard.weathr.presentation.weathr.home.sections.TemperatureSection
 import com.timrashard.weathr.presentation.weathr.home.sections.WeatherMapSection
+import com.timrashard.weathr.utils.DateTimeUtils
 
 @Composable
 fun HomeScreen(
@@ -53,15 +52,15 @@ fun HomeScreen(
         ) {
             when (weatherState) {
                 is Resource.Loading -> {
-                    Text("Loading...")
+                    AnimatedShimmer()
                 }
 
                 is Resource.Success -> {
                     val weatherData = weatherState.data
 
                     SingleIconTopBar(
-                        title = "Stuttgart",
-                        subtitle = "11 July 2024",
+                        title = weatherData?.resolvedAddress?.split(",")?.get(0) ?: "Searching...",
+                        subtitle =  DateTimeUtils.formatDateWithDayName(weatherData?.days?.first()?.datetime ?: ""),
                         onMenuClick = {
                             navController.navigate(Screen.Details.route)
                         }

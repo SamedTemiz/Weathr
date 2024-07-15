@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,8 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.timrashard.weathr.R
 import com.timrashard.weathr.data.model.CurrentConditions
-import com.timrashard.weathr.presentation.theme.AppTypography
 import com.timrashard.weathr.presentation.theme.WeathrTheme
+import com.timrashard.weathr.presentation.theme.bodyFontFamily
 
 @Composable
 fun WeatherDetailsCard(
@@ -46,21 +45,21 @@ fun WeatherDetailsCard(
             horizontalArrangement = Arrangement.SpaceAround,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 24.dp)
+                .padding(vertical = 18.dp)
 
         ) {
             WeatherDetailItem(
-                icon = R.drawable.wind,
+                icon = R.drawable.ic_wind,
                 value = "${currentConditions!!.windspeed.toInt()} m/s",
                 description = "Wind"
             )
             WeatherDetailItem(
-                icon = R.drawable.humidity,
+                icon = R.drawable.ic_humidity,
                 value = "${currentConditions.humidity.toInt()}%",
                 description = "Humidity"
             )
             WeatherDetailItem(
-                icon = R.drawable.rain,
+                icon = R.drawable.ic_rain,
                 value = "${currentConditions.precipprob.toInt()}%",
                 description = "Rain"
             )
@@ -74,8 +73,6 @@ fun WeatherDetailItem(
     value: String,
     description: String
 ) {
-    val fontFamily = AppTypography.bodyLarge.fontFamily
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -90,7 +87,7 @@ fun WeatherDetailItem(
             text = value,
             style = TextStyle(
                 fontSize = 18.sp,
-                fontFamily = fontFamily,
+                fontFamily = bodyFontFamily,
                 color = MaterialTheme.colorScheme.tertiary
             )
         )
@@ -100,7 +97,7 @@ fun WeatherDetailItem(
             text = description,
             style = TextStyle(
                 fontSize = 16.sp,
-                fontFamily = fontFamily,
+                fontFamily = bodyFontFamily,
                 color = Color.Gray
             )
         )

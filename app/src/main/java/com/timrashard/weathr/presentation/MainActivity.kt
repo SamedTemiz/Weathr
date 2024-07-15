@@ -14,6 +14,7 @@ import com.timrashard.weathr.presentation.weathr.Screen
 import com.timrashard.weathr.presentation.weathr.WeatherViewModel
 import com.timrashard.weathr.presentation.weathr.details.DetailsScreen
 import com.timrashard.weathr.presentation.weathr.home.HomeScreen
+import com.timrashard.weathr.presentation.weathr.settings.SettingsScreen
 import com.timrashard.weathr.utils.DataUtils
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,10 +40,15 @@ class MainActivity : ComponentActivity() {
 fun WeatherApp(navController: NavHostController, weatherViewModel: WeatherViewModel) {
     NavHost(navController = navController, startDestination = Screen.Home.route) {
         composable(Screen.Home.route) {
-            HomeScreen(navController, weatherViewModel)
+            HomeScreen(navController = navController, viewModel = weatherViewModel)
         }
+
         composable(Screen.Details.route) {
-            DetailsScreen(navController)
+            DetailsScreen(navController = navController, viewModel = weatherViewModel)
+        }
+
+        composable(Screen.Settings.route) {
+            SettingsScreen(navController = navController)
         }
     }
 }

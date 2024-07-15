@@ -5,37 +5,28 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.substring
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.timrashard.weathr.R
 import com.timrashard.weathr.data.model.Day
 import com.timrashard.weathr.data.model.Hour
-import com.timrashard.weathr.presentation.theme.AppTypography
 import com.timrashard.weathr.presentation.theme.bodyFontFamily
+import com.timrashard.weathr.utils.DateTimeUtils
 
 @Composable
 fun HourlyForecastList(hours: List<Hour>) {
@@ -55,8 +46,8 @@ fun DailyForecastList(days: List<Day>) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(days) { data ->
-            DailyForecastItem(data)
+        itemsIndexed(days) { index, data ->
+            DailyForecastItem(data, isFirst = index == 0)
         }
     }
 }
@@ -80,14 +71,14 @@ fun HourlyForecastItem(hourlyData: Hour) {
             Text(
                 text = hourlyData.datetime.substring(0, 5),
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     fontFamily = bodyFontFamily,
                     color = Color.Gray
                 )
             )
 
             Image(
-                painter = painterResource(id = R.drawable.humidity),
+                painter = painterResource(id = R.drawable.ic_humidity),
                 contentDescription = "Wind",
                 modifier = Modifier.size(36.dp)
             )
@@ -95,7 +86,7 @@ fun HourlyForecastItem(hourlyData: Hour) {
             Text(
                 text = "${hourlyData.temp.toInt()}°",
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     fontFamily = bodyFontFamily,
                     color = MaterialTheme.colorScheme.tertiary
                 )
@@ -105,7 +96,7 @@ fun HourlyForecastItem(hourlyData: Hour) {
 }
 
 @Composable
-fun DailyForecastItem(dayData: Day) {
+fun DailyForecastItem(dayData: Day, isFirst: Boolean = false) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -121,16 +112,16 @@ fun DailyForecastItem(dayData: Day) {
             modifier = Modifier.fillMaxHeight()
         ) {
             Text(
-                text = dayData.datetime,
+                text = if(isFirst) DateTimeUtils.getLocalizedTodayName() else DateTimeUtils.formatDate(dayData.datetime, "dd MMMM"),
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     fontFamily = bodyFontFamily,
                     color = Color.Gray
                 )
             )
 
             Image(
-                painter = painterResource(id = R.drawable.rain),
+                painter = painterResource(id = R.drawable.ic_rain),
                 contentDescription = "Wind",
                 modifier = Modifier.size(36.dp)
             )
@@ -138,7 +129,7 @@ fun DailyForecastItem(dayData: Day) {
             Text(
                 text = "${dayData.temp}°",
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     fontFamily = bodyFontFamily,
                     color = MaterialTheme.colorScheme.tertiary
                 )

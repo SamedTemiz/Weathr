@@ -13,13 +13,14 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CustomIconButton(
+    modifier: Modifier,
     onClick: () -> Unit,
     icon: Int,
     contentDesc: String? = null
 ){
     IconButton(
         onClick = { onClick() },
-        modifier = Modifier
+        modifier = modifier
             .size(48.dp)
             .background(color = Color(0xFF202329), shape = RoundedCornerShape(15.dp))
     ) {

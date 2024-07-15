@@ -1,90 +1,72 @@
 package com.timrashard.weathr.presentation.weathr.details
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.timrashard.weathr.presentation.components.DailyForecastList
+import com.timrashard.weathr.common.Resource
 import com.timrashard.weathr.presentation.components.DoubleIconTopBar
+import com.timrashard.weathr.presentation.components.TemperatureCard
 import com.timrashard.weathr.presentation.components.WeatherDetailsCard
-import com.timrashard.weathr.presentation.theme.AppTypography
+import com.timrashard.weathr.presentation.components.WeeklyForecastList
+import com.timrashard.weathr.presentation.weathr.Screen
+import com.timrashard.weathr.presentation.weathr.WeatherViewModel
 
 @Composable
-fun DetailsScreen(navController: NavController) {
+fun DetailsScreen(
+    navController: NavController,
+    viewModel: WeatherViewModel
+) {
+    val weatherState by viewModel.weatherData.collectAsState()
+
     Surface(
         color = MaterialTheme.colorScheme.secondary
     ) {
         Column(
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            DoubleIconTopBar(
-                title = "Stuttgart",
-                onBackClick = {
-                    navController.navigateUp()
-                },
-                onSettingsClick = {
-
+            when (weatherState) {
+                is Resource.Loading -> {
+                    Text("Loading...")
                 }
-            )
 
-            Spacer(modifier = Modifier.height(16.dp))
-            TemperatureCard()
+                is Resource.Success -> {
+                    val weatherData = weatherState.data
 
-            Spacer(modifier = Modifier.height(16.dp))
-            WeatherDetailsCard(currentConditions = null)
+                    DoubleIconTopBar(
+                        title = weatherData?.resolvedAddress ?: "Searching...",
+                        onBackClick = {
+                            navController.navigateUp()
+                        },
+                        onSettingsClick = {
+                            navController.popBackStack()
+                            navController.navigate(Screen.Settings.route)
+                        }
+                    )
 
-            Spacer(modifier = Modifier.height(16.dp))
-            DailyForecastList()
-        }
-    }
-}
+                    TemperatureCard(currentConditions = weatherData!!.currentConditions)
 
-@Composable
-fun TemperatureCard() {
-    val weatherStyle = AppTypography.bodyLarge
+                    WeatherDetailsCard(currentConditions = weatherData.currentConditions)
 
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(150.dp)
-            .padding(horizontal = 8.dp)
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = "20°",
-                style = TextStyle(
-                    fontSize = 80.sp,
-                    fontFamily = AppTypography.displayLarge.fontFamily,
-                    color = MaterialTheme.colorScheme.tertiary
-                )
-            )
-            Text(
-                text = "Thunderstorm #",
-                style = TextStyle(
-                    fontSize = weatherStyle.fontSize,
-                    fontFamily = weatherStyle.fontFamily,
-                    color = Color.Gray
-                )
-            )
+                    WeeklyForecastList(weatherData.days.subList(0, 7))
+                }
+
+                is Resource.Error -> {
+                    Text("Error: ${weatherState.message}")
+                }
+            }
         }
     }
 }
