@@ -32,6 +32,35 @@ sealed class WeatherCondition(val condition: String, val icon: Int) {
     data object Overcast : WeatherCondition("Overcast", R.drawable.cloud)
     data object PartiallyCloudy : WeatherCondition("Partially Cloudy", R.drawable.sunny_day)
     data object Clear : WeatherCondition("Clear", R.drawable.sun)
+
+    companion object {
+        fun fromString(condition: String): WeatherCondition {
+            return when (condition) {
+                "Drizzle" -> Drizzle
+                "Heavy Drizzle" -> HeavyDrizzle
+                "Light Drizzle" -> LightDrizzle
+                "Heavy Drizzle/Rain" -> HeavyDrizzleRain
+                "Light Drizzle/Rain" -> LightDrizzleRain
+                "Freezing Drizzle/Freezing Rain" -> FreezingDrizzleFreezingRain
+                "Heavy Freezing Drizzle/Freezing Rain" -> HeavyFreezingDrizzleFreezingRain
+                "Light Freezing Drizzle/Freezing Rain" -> LightFreezingDrizzleFreezingRain
+                "Heavy Freezing Rain" -> HeavyFreezingRain
+                "Light Freezing Rain" -> LightFreezingRain
+                "Funnel Cloud/Tornado" -> Tornado
+                "Precipitation In Vicinity" -> PrecipitationInVicinity
+                "Rain" -> Rain
+                "Heavy Rain and Snow" -> HeavyRainAndSnow
+                "Light Rain and Snow" -> LightRainAndSnow
+                "Rain Showers" -> RainShowers
+                "Heavy Rain" -> HeavyRain
+                "Light Rain" -> LightRain
+                "Snow" -> Snow
+                "Snow and Rain Showers" -> SnowAndRainShowers
+                "Snow Showers" -> SnowShowers
+                else -> throw IllegalArgumentException("Unknown weather condition: $condition")
+            }
+        }
+    }
 }
 
 /*

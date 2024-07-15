@@ -36,7 +36,7 @@ fun WeeklyForecastList(dayList: List<Day>) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         itemsIndexed(dayList) { index, data ->
             DayItem(data, isFirst = index == 0)
@@ -55,7 +55,7 @@ fun DayItem(day: Day, isFirst: Boolean = false) {
         Text(
             text = if(isFirst) DateTimeUtils.getLocalizedTodayName() else DateTimeUtils.getDayName(day.datetime),
             style = TextStyle(
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.tertiary
             ),
             modifier = Modifier.weight(1f)
@@ -63,17 +63,19 @@ fun DayItem(day: Day, isFirst: Boolean = false) {
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround,
+            horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.weight(2f)
         ) {
             Text(
                 text = "${day.tempmin.toInt()}°",
                 style = TextStyle(
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     color = Color.Gray
                 )
             )
 
+            val tempRange = day.tempmax - day.tempmin
+            val barWidth = (tempRange * 5).dp
             Box(
                 modifier = Modifier
                     .height(4.dp)
@@ -84,7 +86,7 @@ fun DayItem(day: Day, isFirst: Boolean = false) {
                     modifier = Modifier
                         .fillMaxHeight()
                         .align(Alignment.Center)
-                        .width(((day.tempmax - day.tempmin) * 10).dp)
+                        .width(barWidth)
                         .background(
                             brush = Brush.horizontalGradient(
                                 colors = listOf(Color(0xFF80ED99), Color(0xFF00FFC6), Color(0xFF30AADD))
@@ -97,14 +99,14 @@ fun DayItem(day: Day, isFirst: Boolean = false) {
             Text(
                 text = "${day.tempmax.toInt()}°",
                 style = TextStyle(
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     color = MaterialTheme.colorScheme.tertiary
                 )
             )
         }
 
         Image(
-            painter = painterResource(id = R.drawable.ic_rain),
+            painter = painterResource(id = R.drawable.sunny_day),
             contentDescription = null,
             modifier = Modifier.size(34.dp),
             contentScale = ContentScale.Fit

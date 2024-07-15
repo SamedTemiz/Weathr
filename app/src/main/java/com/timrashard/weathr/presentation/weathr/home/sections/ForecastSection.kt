@@ -67,9 +67,9 @@ fun ForecastSection(
             modifier = Modifier.fillMaxWidth()
         ) { page ->
             when (page) {
-                0 -> HourlyForecastList(days.first().hours) // Today
-                1 -> HourlyForecastList(days[1].hours)      // Tomorrow
-                2 -> DailyForecastList(days)                // Next 10 days
+                0 -> HourlyForecastList(days.first().hours, isToday = true) // Today
+                1 -> HourlyForecastList(days[1].hours, isToday = false)     // Tomorrow
+                2 -> DailyForecastList(days)                                // Next 10 days
             }
         }
     }
@@ -110,7 +110,7 @@ fun Tabs(
                 Text(
                     text = title,
                     color = if (selectedTab == index) MaterialTheme.colorScheme.tertiary else Color.Gray,
-                    fontSize = 18.sp
+                    fontSize = 16.sp
                 )
                 if (selectedTab == index) {
                     Spacer(modifier = Modifier.height(4.dp))

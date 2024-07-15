@@ -27,14 +27,22 @@ import com.timrashard.weathr.data.model.Day
 import com.timrashard.weathr.data.model.Hour
 import com.timrashard.weathr.presentation.theme.bodyFontFamily
 import com.timrashard.weathr.utils.DateTimeUtils
+import java.time.LocalTime
 
 @Composable
-fun HourlyForecastList(hours: List<Hour>) {
+fun HourlyForecastList(hours: List<Hour>, isToday: Boolean = false) {
+    val currentTime = LocalTime.now()
+    val startHour = if (isToday) {
+        hours.indexOfFirst { it.datetime.substring(0, 2).toInt() >= currentTime.hour }
+    } else {
+        0
+    }
+
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(hours) { data ->
+        items(hours.drop(startHour)) { data ->
             HourlyForecastItem(data)
         }
     }
@@ -54,53 +62,37 @@ fun DailyForecastList(days: List<Day>) {
 
 @Composable
 fun HourlyForecastItem(hourlyData: Hour) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .size(110.dp, 150.dp)
-            .background(
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                shape = RoundedCornerShape(20.dp)
-            )
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.fillMaxHeight()
-        ) {
-            Text(
-                text = hourlyData.datetime.substring(0, 5),
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontFamily = bodyFontFamily,
-                    color = Color.Gray
-                )
-            )
-
-            Image(
-                painter = painterResource(id = R.drawable.ic_humidity),
-                contentDescription = "Wind",
-                modifier = Modifier.size(36.dp)
-            )
-
-            Text(
-                text = "${hourlyData.temp.toInt()}°",
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontFamily = bodyFontFamily,
-                    color = MaterialTheme.colorScheme.tertiary
-                )
-            )
-        }
-    }
+    ForecastItem(
+        datetime = hourlyData.datetime,
+        temp = "${hourlyData.temp.toInt()}°",
+        isHourly = true,
+        iconResId = R.drawable.thunderstorm
+    )
 }
 
 @Composable
 fun DailyForecastItem(dayData: Day, isFirst: Boolean = false) {
+    ForecastItem(
+        datetime = dayData.datetime,
+        temp = "${dayData.temp.toInt()}°",
+        isHourly = false,
+        isFirst = isFirst,
+        iconResId = R.drawable.drizzling
+    )
+}
+
+@Composable
+fun ForecastItem(
+    datetime: String,
+    temp: String,
+    isHourly: Boolean,
+    isFirst: Boolean = false,
+    iconResId: Int
+) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .size(110.dp, 150.dp)
+            .size(100.dp, 130.dp)
             .background(
                 color = MaterialTheme.colorScheme.secondaryContainer,
                 shape = RoundedCornerShape(20.dp)
@@ -112,22 +104,28 @@ fun DailyForecastItem(dayData: Day, isFirst: Boolean = false) {
             modifier = Modifier.fillMaxHeight()
         ) {
             Text(
-                text = if(isFirst) DateTimeUtils.getLocalizedTodayName() else DateTimeUtils.formatDate(dayData.datetime, "dd MMMM"),
+                text = if (isHourly) datetime.substring(
+                    0,
+                    5
+                ) else if (isFirst) DateTimeUtils.getLocalizedTodayName() else DateTimeUtils.formatDate(
+                    datetime,
+                    "dd MMMM"
+                ),
                 style = TextStyle(
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     fontFamily = bodyFontFamily,
                     color = Color.Gray
                 )
             )
 
             Image(
-                painter = painterResource(id = R.drawable.ic_rain),
-                contentDescription = "Wind",
+                painter = painterResource(id = iconResId),
+                contentDescription = null,
                 modifier = Modifier.size(36.dp)
             )
 
             Text(
-                text = "${dayData.temp}°",
+                text = temp,
                 style = TextStyle(
                     fontSize = 18.sp,
                     fontFamily = bodyFontFamily,

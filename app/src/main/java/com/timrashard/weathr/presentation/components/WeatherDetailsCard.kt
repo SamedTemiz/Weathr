@@ -49,17 +49,17 @@ fun WeatherDetailsCard(
 
         ) {
             WeatherDetailItem(
-                icon = R.drawable.ic_wind,
+                icon = R.drawable.wind_3d,
                 value = "${currentConditions!!.windspeed.toInt()} m/s",
                 description = "Wind"
             )
             WeatherDetailItem(
-                icon = R.drawable.ic_humidity,
+                icon = R.drawable.rain_drop,
                 value = "${currentConditions.humidity.toInt()}%",
                 description = "Humidity"
             )
             WeatherDetailItem(
-                icon = R.drawable.ic_rain,
+                icon = R.drawable.umbrella_rain,
                 value = "${currentConditions.precipprob.toInt()}%",
                 description = "Rain"
             )
@@ -79,10 +79,10 @@ fun WeatherDetailItem(
         Image(
             painter = painterResource(id = icon),
             contentDescription = "Wind",
-            modifier = Modifier.size(30.dp)
+            modifier = Modifier.size(34.dp)
         )
 
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(4.dp))
         Text(
             text = value,
             style = TextStyle(
@@ -92,11 +92,11 @@ fun WeatherDetailItem(
             )
         )
 
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(4.dp))
         Text(
             text = description,
             style = TextStyle(
-                fontSize = 16.sp,
+                fontSize = 14.sp,
                 fontFamily = bodyFontFamily,
                 color = Color.Gray
             )

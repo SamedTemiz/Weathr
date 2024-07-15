@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.timrashard.weathr.presentation.theme.WeathrTheme
 import com.timrashard.weathr.presentation.weathr.Screen
 import com.timrashard.weathr.presentation.weathr.WeatherViewModel
