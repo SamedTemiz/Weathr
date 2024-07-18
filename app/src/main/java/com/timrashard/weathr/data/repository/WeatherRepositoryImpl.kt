@@ -15,8 +15,8 @@ class WeatherRepositoryImpl(
 ) : WeatherRepository {
 
     override fun getWeatherData(
-        latitude: Double,
-        longitude: Double,
+        latitude: Any,
+        longitude: Any,
         apiKey: String
     ): Flow<Resource<WeatherDataResult>> = flow {
         emit(Resource.Loading())

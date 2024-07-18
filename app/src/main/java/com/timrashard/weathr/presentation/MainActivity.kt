@@ -38,6 +38,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WeatherApp(navController: NavHostController, weatherViewModel: WeatherViewModel) {
+    weatherViewModel.fetchWeatherData("Izmir", "TR")
+
     NavHost(navController = navController, startDestination = Screen.Home.route) {
         composable(Screen.Home.route) {
             HomeScreen(navController = navController, viewModel = weatherViewModel)

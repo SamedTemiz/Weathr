@@ -36,11 +36,6 @@ fun HomeScreen(
 ) {
     val weatherState by viewModel.weatherData.collectAsState()
 
-    LaunchedEffect(Unit) {
-//        viewModel.fetchWeatherData(38.395129, 27.076453, BuildConfig.API_KEY)
-        viewModel.fetchWeatherDataFromExample()
-    }
-
     Surface(
         color = MaterialTheme.colorScheme.secondary
     ) {
@@ -60,13 +55,15 @@ fun HomeScreen(
 
                     SingleIconTopBar(
                         title = weatherData?.resolvedAddress?.split(",")?.get(0) ?: "Searching...",
-                        subtitle =  DateTimeUtils.formatDateWithDayName(weatherData?.days?.first()?.datetime ?: ""),
+                        subtitle = DateTimeUtils.formatDateWithDayName(
+                            weatherData?.days?.first()?.datetime ?: ""
+                        ),
                         onMenuClick = {
                             navController.navigate(Screen.Details.route)
                         }
                     )
 
-                    TemperatureSection(weatherData!!.currentConditions)
+                    TemperatureSection(viewModel, weatherData!!.currentConditions)
 
                     WeatherDetailsCard(weatherData.currentConditions)
 

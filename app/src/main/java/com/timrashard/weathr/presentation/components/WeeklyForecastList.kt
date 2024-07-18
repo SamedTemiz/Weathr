@@ -26,7 +26,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.timrashard.weathr.R
+import com.timrashard.weathr.common.Constant.ASSETS_BASE_URL
 import com.timrashard.weathr.data.model.Day
 import com.timrashard.weathr.utils.DateTimeUtils
 
@@ -48,7 +50,8 @@ fun WeeklyForecastList(dayList: List<Day>) {
 fun DayItem(day: Day, isFirst: Boolean = false) {
     Row(
         modifier = Modifier
-            .fillMaxWidth().padding(vertical = 8.dp),
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -89,7 +92,11 @@ fun DayItem(day: Day, isFirst: Boolean = false) {
                         .width(barWidth)
                         .background(
                             brush = Brush.horizontalGradient(
-                                colors = listOf(Color(0xFF80ED99), Color(0xFF00FFC6), Color(0xFF30AADD))
+                                colors = listOf(
+                                    Color(0xFF80ED99),
+                                    Color(0xFF00FFC6),
+                                    Color(0xFF30AADD)
+                                )
                             ),
                             shape = RoundedCornerShape(2.dp)
                         )
@@ -105,9 +112,9 @@ fun DayItem(day: Day, isFirst: Boolean = false) {
             )
         }
 
-        Image(
-            painter = painterResource(id = R.drawable.sunny_day),
-            contentDescription = null,
+        AsyncImage(
+            model = "$ASSETS_BASE_URL${day.icon}.png",
+            contentDescription = "Icon",
             modifier = Modifier.size(34.dp),
             contentScale = ContentScale.Fit
         )

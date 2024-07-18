@@ -10,8 +10,8 @@ interface WeatherApi {
 
     @GET("{latitude},{longitude}/")
     fun getWeatherData(
-        @Path("latitude") latitude: Double,
-        @Path("longitude") longitude: Double,
+        @Path("latitude") latitude: Any,
+        @Path("longitude") longitude: Any,
         @Query("key") apiKey: String,
         @Query("unitGroup") unitGroup: String = "metric",
         @Query("include") include: String = "days,hours,alerts,current,fcst"

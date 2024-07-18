@@ -37,15 +37,14 @@ import com.timrashard.weathr.R
 import com.timrashard.weathr.data.model.Day
 import com.timrashard.weathr.presentation.components.DailyForecastList
 import com.timrashard.weathr.presentation.components.HourlyForecastList
+import com.timrashard.weathr.presentation.weathr.WeatherViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ForecastSection(
-    days: List<Day>
-) {
+fun ForecastSection(days: List<Day>) {
     val tabs = listOf(
         stringResource(id = R.string.today),
         stringResource(id = R.string.tomorrow),

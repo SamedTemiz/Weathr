@@ -27,6 +27,7 @@ import com.timrashard.weathr.R
 import com.timrashard.weathr.data.model.CurrentConditions
 import com.timrashard.weathr.presentation.theme.WeathrTheme
 import com.timrashard.weathr.presentation.theme.bodyFontFamily
+import com.timrashard.weathr.presentation.weathr.WeatherViewModel
 
 @Composable
 fun WeatherDetailsCard(
@@ -49,17 +50,17 @@ fun WeatherDetailsCard(
 
         ) {
             WeatherDetailItem(
-                icon = R.drawable.wind_3d,
+                icon = R.drawable.wind,
                 value = "${currentConditions!!.windspeed.toInt()} m/s",
                 description = "Wind"
             )
             WeatherDetailItem(
-                icon = R.drawable.rain_drop,
+                icon = R.drawable.humidity,
                 value = "${currentConditions.humidity.toInt()}%",
                 description = "Humidity"
             )
             WeatherDetailItem(
-                icon = R.drawable.umbrella_rain,
+                icon = R.drawable.rainprep,
                 value = "${currentConditions.precipprob.toInt()}%",
                 description = "Rain"
             )
@@ -101,14 +102,5 @@ fun WeatherDetailItem(
                 color = Color.Gray
             )
         )
-    }
-}
-
-@Preview
-@Composable
-fun WeatherDetailsCardPreview() {
-    WeathrTheme {
-        WeatherDetailsCard(currentConditions = null)
-//        WeatherDetailItem()
     }
 }

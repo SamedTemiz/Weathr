@@ -1,6 +1,5 @@
 package com.timrashard.weathr.presentation.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,11 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.timrashard.weathr.R
+import coil.compose.AsyncImage
+import com.timrashard.weathr.common.Constant.ASSETS_BASE_URL
 import com.timrashard.weathr.data.model.Day
 import com.timrashard.weathr.data.model.Hour
 import com.timrashard.weathr.presentation.theme.bodyFontFamily
@@ -42,8 +41,8 @@ fun HourlyForecastList(hours: List<Hour>, isToday: Boolean = false) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(hours.drop(startHour)) { data ->
-            HourlyForecastItem(data)
+        items(hours.drop(startHour)) { hourlyData ->
+            HourlyForecastItem(hourlyData)
         }
     }
 }
@@ -66,7 +65,7 @@ fun HourlyForecastItem(hourlyData: Hour) {
         datetime = hourlyData.datetime,
         temp = "${hourlyData.temp.toInt()}°",
         isHourly = true,
-        iconResId = R.drawable.thunderstorm
+        iconName = hourlyData.icon
     )
 }
 
@@ -77,7 +76,7 @@ fun DailyForecastItem(dayData: Day, isFirst: Boolean = false) {
         temp = "${dayData.temp.toInt()}°",
         isHourly = false,
         isFirst = isFirst,
-        iconResId = R.drawable.drizzling
+        iconName = dayData.icon
     )
 }
 
@@ -87,7 +86,7 @@ fun ForecastItem(
     temp: String,
     isHourly: Boolean,
     isFirst: Boolean = false,
-    iconResId: Int
+    iconName: String
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -118,9 +117,9 @@ fun ForecastItem(
                 )
             )
 
-            Image(
-                painter = painterResource(id = iconResId),
-                contentDescription = null,
+            AsyncImage(
+                model = "$ASSETS_BASE_URL$iconName.png",
+                contentDescription = "Icon",
                 modifier = Modifier.size(36.dp)
             )
 
