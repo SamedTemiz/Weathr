@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -77,6 +78,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.play.services.location)
+
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
@@ -98,4 +101,11 @@ dependencies {
 
     // Coil
     implementation(libs.coil.compose)
+
+    // Lottie
+    implementation(libs.lottie)
+    implementation(libs.ui)
+    implementation(libs.ui.tooling)
+    implementation(libs.androidx.foundation)
+    implementation(libs.lottie.compose)
 }

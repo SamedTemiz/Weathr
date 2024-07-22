@@ -1,30 +1,38 @@
 package com.timrashard.weathr.presentation
 
+import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.timrashard.weathr.common.PermissionManager
 import com.timrashard.weathr.presentation.theme.WeathrTheme
 import com.timrashard.weathr.presentation.weathr.Screen
 import com.timrashard.weathr.presentation.weathr.WeatherViewModel
 import com.timrashard.weathr.presentation.weathr.details.DetailsScreen
 import com.timrashard.weathr.presentation.weathr.home.HomeScreen
 import com.timrashard.weathr.presentation.weathr.settings.SettingsScreen
-import com.timrashard.weathr.utils.DataUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        startApp()
+    }
 
-        DataUtils.init(this) // KAldırcaz bunu TODO
-
+    private fun startApp() {
         setContent {
             WeathrTheme {
                 val navController = rememberNavController()

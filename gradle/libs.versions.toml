@@ -2,6 +2,7 @@
 accompanistNavigationAnimation = "0.20.0"
 agp = "8.5.0"
 coil = "2.6.0"
+foundation = "1.6.8"
 hiltWork = "1.2.0"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
@@ -14,16 +15,21 @@ activityCompose = "1.9.0"
 composeBom = "2024.06.00"
 ksp = "1.9.10-1.0.13"
 hilt = "2.49"
+lottie = "5.2.0"
 navigationCompose = "2.7.7"
+playServicesLocation = "21.3.0"
 retrofit = "2.11.0"
+ui = "1.6.8"
 uiTextGoogleFonts = "1.6.8"
-hilt_lifecycle_viewmodel = "1.0.0-alpha03"
 hilt_compiler = "1.2.0"
+uiTooling = "1.6.8"
 workRuntimeKtx = "2.9.0"
+material = "1.12.0"
 
 [libraries]
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimation" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundation" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltWork" }
 androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltWork" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
@@ -44,12 +50,18 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 hilt_android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt_android_compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt_compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt_compiler" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
+ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTooling" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
