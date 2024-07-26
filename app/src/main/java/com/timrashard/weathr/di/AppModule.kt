@@ -1,10 +1,12 @@
 package com.timrashard.weathr.di
 
+import android.content.Context
 import com.timrashard.weathr.common.Constant.BASE_URL
 import com.timrashard.weathr.data.api.WeatherApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,6 +21,12 @@ object AppModule {
        TR -> Tüm uygulamada oluşturulan tek örnek kullanılacak bir daha instance oluşturmayacak ---silinebilir
        EN -> The only instance created in the entire application will be used and will not create another instance ---can be deleted
     */
+
+    @Singleton
+    @Provides
+    fun provideContext(@ApplicationContext context: Context): Context {
+        return context
+    }
 
     @Singleton
     @Provides

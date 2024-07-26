@@ -1,20 +1,30 @@
 package com.timrashard.weathr.presentation
 
-import android.app.AlertDialog
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.timrashard.weathr.common.PermissionManager
+import com.timrashard.weathr.R
+import com.timrashard.weathr.domain.repository.ConnectivityRepository
+import com.timrashard.weathr.presentation.components.AnimatedShimmer
+import com.timrashard.weathr.presentation.components.NetworkStatusDialog
 import com.timrashard.weathr.presentation.theme.WeathrTheme
 import com.timrashard.weathr.presentation.weathr.Screen
 import com.timrashard.weathr.presentation.weathr.WeatherViewModel
@@ -26,19 +36,50 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         startApp()
     }
 
     private fun startApp() {
         setContent {
-            WeathrTheme {
-                val navController = rememberNavController()
-                val viewModel: WeatherViewModel = hiltViewModel()
+            val navController = rememberNavController()
+            val viewModel: WeatherViewModel = hiltViewModel()
 
-                WeatherApp(navController, viewModel)
+            val networkState by viewModel.networkStatus.collectAsState()
+
+            WeathrTheme {
+                Surface(
+                    color = MaterialTheme.colorScheme.secondary,
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    when (networkState) {
+                        ConnectivityRepository.NetworkStatus.Available -> {
+                            WeatherApp(navController, viewModel)
+                        }
+
+                        ConnectivityRepository.NetworkStatus.Lost -> {
+                            NetworkStatusDialog(
+                                title = stringResource(id = R.string.network_unavailable_title),
+                                message = stringResource(id = R.string.network_unavailable_message),
+                                onRetry = { recreate() },
+                                onExit = { finish() }
+                            )
+                        }
+
+                        ConnectivityRepository.NetworkStatus.Unknown -> {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(16.dp)
+                            ) {
+                                AnimatedShimmer()
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -49,15 +90,60 @@ fun WeatherApp(navController: NavHostController, weatherViewModel: WeatherViewMo
     weatherViewModel.fetchWeatherData("Izmir", "TR")
 
     NavHost(navController = navController, startDestination = Screen.Home.route) {
-        composable(Screen.Home.route) {
+        val tweenDuration = 750
+
+        composable(
+            route = Screen.Home.route,
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    tween(tweenDuration)
+                )
+            },
+            popEnterTransition = {
+
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    tween(tweenDuration)
+                )
+            }
+        ) {
             HomeScreen(navController = navController, viewModel = weatherViewModel)
         }
 
-        composable(Screen.Details.route) {
+        composable(
+            route = Screen.Details.route,
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    tween(tweenDuration)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    tween(tweenDuration)
+                )
+            }
+        ) {
             DetailsScreen(navController = navController, viewModel = weatherViewModel)
         }
 
-        composable(Screen.Settings.route) {
+        composable(
+            route = Screen.Settings.route,
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    tween(tweenDuration)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    tween(tweenDuration)
+                )
+            }
+        ) {
             SettingsScreen(navController = navController)
         }
     }

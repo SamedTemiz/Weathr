@@ -6,4 +6,7 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="next_14_days">Next 14 Days</string>
 
+<!--    General Dialogs-->
+    <string name="network_unavailable_title">Network unavailable</string>
+    <string name="network_unavailable_message">To use this app, you\'ll need an active internet connection. Please turn on your Wi-Fi.</string>
 </resources>

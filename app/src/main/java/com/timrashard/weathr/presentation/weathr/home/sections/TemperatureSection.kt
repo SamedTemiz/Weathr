@@ -16,24 +16,29 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.timrashard.weathr.R
+import com.timrashard.weathr.common.Constant.ASSETS_BASE_URL
 import com.timrashard.weathr.data.model.CurrentConditions
 import com.timrashard.weathr.presentation.components.ParallaxEffect
 import com.timrashard.weathr.presentation.theme.bodyFontFamily
 import com.timrashard.weathr.presentation.theme.displayFontFamily
 import com.timrashard.weathr.presentation.weathr.WeatherViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun TemperatureSection(
@@ -42,9 +47,12 @@ fun TemperatureSection(
 ) {
     val iconName by remember { mutableStateOf(currentConditions.icon) }
     val rawComposition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.loading))
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-        viewModel.loadIcon(iconName)
+        scope.launch {
+            viewModel.loadIcon(iconName)
+        }
     }
 
     val iconUrl by viewModel.iconUrl.collectAsState()
@@ -84,7 +92,10 @@ fun TemperatureSection(
                     .aspectRatio(1f)
             ) {
                 SubcomposeAsyncImage(
-                    model = url,
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(url)
+                        .crossfade(true)
+                        .build(),
                     contentDescription = "Weather Icon",
                     loading = {
                         LottieAnimation(
@@ -103,7 +114,7 @@ fun TemperatureSection(
                     .fillMaxWidth(0.40f)
                     .aspectRatio(1f),
 
-                ){
+                ) {
                 LottieAnimation(
                     composition = rawComposition,
                     modifier = Modifier.fillMaxSize(),

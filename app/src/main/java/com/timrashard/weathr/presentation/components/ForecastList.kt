@@ -14,13 +14,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.timrashard.weathr.common.Constant.ASSETS_BASE_URL
 import com.timrashard.weathr.data.model.Day
 import com.timrashard.weathr.data.model.Hour
@@ -32,7 +38,9 @@ import java.time.LocalTime
 fun HourlyForecastList(hours: List<Hour>, isToday: Boolean = false) {
     val currentTime = LocalTime.now()
     val startHour = if (isToday) {
-        hours.indexOfFirst { it.datetime.substring(0, 2).toInt() >= currentTime.hour }
+        hours.indexOfFirst {
+            it.datetime.substring(0, 2).toInt() >= currentTime.hour
+        }
     } else {
         0
     }
@@ -103,10 +111,9 @@ fun ForecastItem(
             modifier = Modifier.fillMaxHeight()
         ) {
             Text(
-                text = if (isHourly) datetime.substring(
-                    0,
-                    5
-                ) else if (isFirst) DateTimeUtils.getLocalizedTodayName() else DateTimeUtils.formatDate(
+                text = if (isHourly) datetime.substring(0, 5)
+                else if (isFirst) DateTimeUtils.getLocalizedTodayName()
+                else DateTimeUtils.formatDate(
                     datetime,
                     "dd MMMM"
                 ),
@@ -118,7 +125,10 @@ fun ForecastItem(
             )
 
             AsyncImage(
-                model = "$ASSETS_BASE_URL$iconName.png",
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("$ASSETS_BASE_URL$iconName.png")
+                    .crossfade(true)
+                    .build(),
                 contentDescription = "Icon",
                 modifier = Modifier.size(36.dp)
             )

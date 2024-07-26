@@ -80,7 +80,6 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.play.services.location)
 
-
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
 
