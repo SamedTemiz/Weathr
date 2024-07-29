@@ -21,11 +21,8 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField(
-            "String",
-            "API_KEY",
-            "\"${project.findProperty("API_KEY")}\""
-        )
+        buildConfigField("String", "AIR_POLLUTION_API_KEY", "\"${project.findProperty("AIR_POLLUTION_API_KEY")}\"")
+        buildConfigField("String", "WEATHER_API_KEY", "\"${project.findProperty("WEATHER_API_KEY")}\"")
     }
 
     buildTypes {

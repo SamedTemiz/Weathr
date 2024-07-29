@@ -1,7 +1,9 @@
 package com.timrashard.weathr.di
 
 import android.content.Context
-import com.timrashard.weathr.common.Constant.BASE_URL
+import com.timrashard.weathr.common.Constant.AIR_BASE_URL
+import com.timrashard.weathr.common.Constant.WEATHER_BASE_URL
+import com.timrashard.weathr.data.api.AirPollutionApi
 import com.timrashard.weathr.data.api.WeatherApi
 import dagger.Module
 import dagger.Provides
@@ -32,9 +34,19 @@ object AppModule {
     @Provides
     fun provideWeatherApi(): WeatherApi {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(WEATHER_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(WeatherApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAirPollutionApi(): AirPollutionApi {
+        return Retrofit.Builder()
+            .baseUrl(AIR_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(AirPollutionApi::class.java)
     }
 }

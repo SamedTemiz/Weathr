@@ -31,6 +31,7 @@ import com.timrashard.weathr.presentation.weathr.WeatherViewModel
 import com.timrashard.weathr.presentation.weathr.details.DetailsScreen
 import com.timrashard.weathr.presentation.weathr.home.HomeScreen
 import com.timrashard.weathr.presentation.weathr.settings.SettingsScreen
+import com.timrashard.weathr.utils.DataUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,6 +39,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DataUtils.init(applicationContext) // Örnek verileri kullanmak için geçici, kaldır sonradan TODO
 
         startApp()
     }
@@ -87,7 +89,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WeatherApp(navController: NavHostController, weatherViewModel: WeatherViewModel) {
+
+    // VERİLER
     weatherViewModel.fetchWeatherData("Izmir", "TR")
+    weatherViewModel.exampleAirPollutionData()
 
     NavHost(navController = navController, startDestination = Screen.Home.route) {
         val tweenDuration = 750

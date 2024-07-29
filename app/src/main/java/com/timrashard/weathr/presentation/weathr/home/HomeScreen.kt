@@ -8,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -24,9 +23,9 @@ import com.timrashard.weathr.presentation.components.WeatherDetailsCard
 import com.timrashard.weathr.presentation.theme.WeathrTheme
 import com.timrashard.weathr.presentation.weathr.Screen
 import com.timrashard.weathr.presentation.weathr.WeatherViewModel
+import com.timrashard.weathr.presentation.weathr.home.sections.AirQualitySection
 import com.timrashard.weathr.presentation.weathr.home.sections.ForecastSection
 import com.timrashard.weathr.presentation.weathr.home.sections.TemperatureSection
-import com.timrashard.weathr.presentation.weathr.home.sections.WeatherMapSection
 import com.timrashard.weathr.utils.DateTimeUtils
 
 @Composable
@@ -69,7 +68,7 @@ fun HomeScreen(
 
                     ForecastSection(weatherData.days)
 
-                    WeatherMapSection()
+                    AirQualitySection(viewModel)
                 }
 
                 is Resource.Error -> {
