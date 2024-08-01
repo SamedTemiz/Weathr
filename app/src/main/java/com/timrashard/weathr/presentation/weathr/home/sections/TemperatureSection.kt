@@ -1,5 +1,6 @@
 package com.timrashard.weathr.presentation.weathr.home.sections
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -70,7 +71,7 @@ fun TemperatureSection(
             Text(
                 text = "${currentConditions.temp.toInt()}°",
                 style = TextStyle(
-                    fontSize = 96.sp,
+                    fontSize = 84.sp,
                     fontFamily = displayFontFamily,
                     color = MaterialTheme.colorScheme.tertiary
                 )
@@ -88,7 +89,7 @@ fun TemperatureSection(
         iconUrl?.let { url ->
             ParallaxEffect(
                 modifier = Modifier
-                    .fillMaxWidth(0.40f)
+                    .fillMaxWidth(0.35f)
                     .aspectRatio(1f)
             ) {
                 SubcomposeAsyncImage(

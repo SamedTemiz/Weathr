@@ -46,8 +46,7 @@ fun WeatherDetailsCard(
             horizontalArrangement = Arrangement.SpaceAround,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 18.dp)
-
+                .padding(vertical = 16.dp)
         ) {
             WeatherDetailItem(
                 icon = R.drawable.wind,
@@ -79,21 +78,21 @@ fun WeatherDetailItem(
     ) {
         Image(
             painter = painterResource(id = icon),
-            contentDescription = "Wind",
-            modifier = Modifier.size(34.dp)
+            contentDescription = "Component",
+            modifier = Modifier.size(32.dp)
         )
 
-        Spacer(Modifier.height(4.dp))
+        Spacer(Modifier.height(2.dp))
         Text(
             text = value,
             style = TextStyle(
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 fontFamily = bodyFontFamily,
                 color = MaterialTheme.colorScheme.tertiary
             )
         )
 
-        Spacer(Modifier.height(4.dp))
+        Spacer(Modifier.height(2.dp))
         Text(
             text = description,
             style = TextStyle(

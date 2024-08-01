@@ -11,19 +11,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.timrashard.weathr.common.Resource
+import com.timrashard.weathr.data.model.WeatherDataResult
 import com.timrashard.weathr.presentation.components.AnimatedShimmer
 import com.timrashard.weathr.presentation.components.SingleIconTopBar
 import com.timrashard.weathr.presentation.components.WeatherDetailsCard
-import com.timrashard.weathr.presentation.theme.WeathrTheme
 import com.timrashard.weathr.presentation.weathr.Screen
 import com.timrashard.weathr.presentation.weathr.WeatherViewModel
 import com.timrashard.weathr.presentation.weathr.home.sections.AirQualitySection
+import com.timrashard.weathr.presentation.weathr.home.sections.AirQualitySectionLowHeight
 import com.timrashard.weathr.presentation.weathr.home.sections.ForecastSection
 import com.timrashard.weathr.presentation.weathr.home.sections.TemperatureSection
 import com.timrashard.weathr.utils.DateTimeUtils
@@ -34,6 +33,8 @@ fun HomeScreen(
     viewModel: WeatherViewModel
 ) {
     val weatherState by viewModel.weatherData.collectAsState()
+
+    val configuration = LocalConfiguration.current
 
     Surface(
         color = MaterialTheme.colorScheme.secondary
@@ -68,7 +69,11 @@ fun HomeScreen(
 
                     ForecastSection(weatherData.days)
 
-                    AirQualitySection(viewModel)
+                    if(configuration.screenHeightDp < 800){
+                        AirQualitySectionLowHeight(viewModel)
+                    }else{
+                        AirQualitySection(viewModel)
+                    }
                 }
 
                 is Resource.Error -> {
@@ -76,13 +81,5 @@ fun HomeScreen(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun HomeScreenPreview() {
-    WeathrTheme {
-        HomeScreen(navController = rememberNavController(), viewModel = hiltViewModel())
     }
 }
