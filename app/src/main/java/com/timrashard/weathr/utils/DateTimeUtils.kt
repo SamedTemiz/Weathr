@@ -1,6 +1,10 @@
 package com.timrashard.weathr.utils
 
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 object DateTimeUtils {
@@ -52,5 +56,11 @@ object DateTimeUtils {
             else -> "Today"
         }
         return todayName
+    }
+
+    fun convertEpochToLocalTime(epoch: Long, zoneId: ZoneId = ZoneId.systemDefault()): String {
+        val localDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(epoch), zoneId)
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        return localDateTime.format(formatter)
     }
 }

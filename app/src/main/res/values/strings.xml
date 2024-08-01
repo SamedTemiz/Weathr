@@ -9,4 +9,10 @@
 <!--    General Dialogs-->
     <string name="network_unavailable_title">Network unavailable</string>
     <string name="network_unavailable_message">To use this app, you\'ll need an active internet connection. Please turn on your Wi-Fi.</string>
+
+<!--    Air Pollutant Name-->
+    <string name="NO2">NO2</string>
+    <string name="PM10">PM10</string>
+    <string name="O3">O3</string>
+    <string name="PM2_5">PM2.5</string>
 </resources>
