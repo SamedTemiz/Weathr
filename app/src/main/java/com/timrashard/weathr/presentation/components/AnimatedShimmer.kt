@@ -77,7 +77,7 @@ fun ShimmerScreen(brush: Brush) {
 
         ForecastShimmer(brush)
 
-        MapShimmer(brush)
+        BottomShimmer(brush)
     }
 }
 
@@ -250,10 +250,9 @@ fun ForecastShimmer(brush: Brush) {
 }
 
 @Composable
-fun MapShimmer(brush: Brush){
+fun BottomShimmer(brush: Brush){
     Spacer(modifier = Modifier
-        .fillMaxWidth()
-        .height(150.dp)
+        .fillMaxSize()
         .background(brush, shape = RoundedCornerShape(15.dp)))
 }
 

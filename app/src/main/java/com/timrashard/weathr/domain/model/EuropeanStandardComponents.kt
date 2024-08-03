@@ -1,6 +1,6 @@
 package com.timrashard.weathr.domain.model
 
-data class EuropeanStandard(
+data class EuropeanStandardComponents(
     val no2: Double,
     val pm10: Double,
     val o3: Double,
