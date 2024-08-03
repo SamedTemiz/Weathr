@@ -1,7 +1,7 @@
 package com.timrashard.weathr.data.model.air
 
 import com.google.gson.annotations.SerializedName
-import com.timrashard.weathr.domain.model.EuropeanStandard
+import com.timrashard.weathr.domain.model.EuropeanStandardComponents
 
 data class Components(
     val co: Double,
@@ -14,8 +14,8 @@ data class Components(
     val so2: Double
 )
 
-fun Components.toEuropeanStandard(): EuropeanStandard {
-    return EuropeanStandard(
+fun Components.toEuropeanStandard(): EuropeanStandardComponents {
+    return EuropeanStandardComponents(
         no2 = this.no2,
         pm10 = this.pm10,
         o3 = this.o3,
