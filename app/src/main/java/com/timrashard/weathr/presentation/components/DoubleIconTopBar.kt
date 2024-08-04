@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.timrashard.weathr.R
 import com.timrashard.weathr.presentation.theme.AppTypography
 
@@ -40,7 +41,7 @@ fun DoubleIconTopBar(
         Text(
             text = title,
             style = TextStyle(
-                fontSize = AppTypography.headlineMedium.fontSize,
+                fontSize = 24.sp,
                 fontFamily = AppTypography.headlineMedium.fontFamily,
                 fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colorScheme.tertiary
