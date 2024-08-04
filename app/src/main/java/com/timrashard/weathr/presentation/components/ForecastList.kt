@@ -123,7 +123,7 @@ fun ForecastItem(
                     "dd MMMM"
                 ),
                 style = TextStyle(
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     fontFamily = bodyFontFamily,
                     color = Color.Gray
                 )
@@ -143,7 +143,7 @@ fun ForecastItem(
             Text(
                 text = temp,
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     fontFamily = bodyFontFamily,
                     color = MaterialTheme.colorScheme.tertiary
                 )

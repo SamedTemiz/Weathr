@@ -55,7 +55,7 @@ fun LocationAndDate(
         Text(
             text = location,
             style = TextStyle(
-                fontSize = 28.sp,
+                fontSize = 24.sp,
                 fontFamily = displayFontFamily,
                 fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colorScheme.tertiary

@@ -66,6 +66,7 @@ import com.timrashard.weathr.presentation.theme.WeathrTheme
 import com.timrashard.weathr.presentation.theme.bodyFontFamily
 import com.timrashard.weathr.presentation.theme.displayFontFamily
 import com.timrashard.weathr.presentation.weathr.WeatherViewModel
+import com.timrashard.weathr.presentation.weathr.home.sections.lowheight.AirPollutionDetailsItemLowHeight
 import com.timrashard.weathr.utils.DateTimeUtils
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -73,7 +74,7 @@ import com.timrashard.weathr.utils.DateTimeUtils
 fun AirQualitySection(viewModel: WeatherViewModel) {
     val airState by viewModel.airData.collectAsState()
 
-    val tabs = listOf("Current Air Pollution", "Hourly Forecast")
+    val tabs = listOf("Air Pollution", "Forecast")
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
 
@@ -132,37 +133,38 @@ fun CurrentAirPollution(airData: CurrentAirPollution) {
             painter = painterResource(id = R.drawable.poor),
             contentDescription = "",
             modifier = Modifier
-                .clip(shape = RoundedCornerShape(15.dp, 0.dp, 0.dp, 15.dp))
+                .weight(1f)
                 .aspectRatio(1f)
         )
+        val pollutant = airData.components
 
-        Column(
+        LazyColumn(
+            modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier
-                .fillMaxHeight()
-                .weight(1f)
         ) {
-            val pollutant = airData.components
+            items(4) { index ->
+                when (index) {
+                    0 -> AirPollutionDetailsItem(
+                        pollutant = stringResource(id = R.string.NO2),
+                        value = pollutant.no2
+                    )
 
-            AirPollutionDetailsItem(
-                pollutant = stringResource(id = R.string.NO2),
-                value = pollutant.no2
-            )
-            AirPollutionDetailsItem(
-                pollutant = stringResource(id = R.string.PM10),
-                value = pollutant.pm10,
-            )
+                    1 -> AirPollutionDetailsItem(
+                        pollutant = stringResource(id = R.string.PM10),
+                        value = pollutant.pm10
+                    )
 
-            AirPollutionDetailsItem(
-                pollutant = stringResource(id = R.string.O3),
-                value = pollutant.o3,
-            )
+                    2 -> AirPollutionDetailsItem(
+                        pollutant = stringResource(id = R.string.O3),
+                        value = pollutant.o3
+                    )
 
-
-            AirPollutionDetailsItem(
-                pollutant = stringResource(id = R.string.PM2_5),
-                value = pollutant.pm2_5,
-            )
+                    3 -> AirPollutionDetailsItem(
+                        pollutant = stringResource(id = R.string.PM2_5),
+                        value = pollutant.pm2_5
+                    )
+                }
+            }
         }
     }
 }
@@ -183,7 +185,7 @@ fun AirPollutionDetailsItem(pollutant: String, value: Double) {
         if (parts.size > 1) {
             withStyle(
                 style = SpanStyle(
-                    fontSize = 14.sp,
+                    fontSize = 12.sp,
                     baselineShift = BaselineShift.Subscript
                 )
             ) {
@@ -210,7 +212,7 @@ fun AirPollutionDetailsItem(pollutant: String, value: Double) {
         Text(
             text = pollutantString,
             color = Color.White,
-            fontSize = 18.sp,
+            fontSize = 16.sp,
             fontFamily = bodyFontFamily,
             modifier = Modifier
                 .padding(start = 8.dp)
@@ -220,7 +222,7 @@ fun AirPollutionDetailsItem(pollutant: String, value: Double) {
         Text(
             text = "%.2f".format(value),
             color = Color.White,
-            fontSize = 18.sp,
+            fontSize = 16.sp,
             fontFamily = displayFontFamily,
             textAlign = TextAlign.Center,
             modifier = Modifier.weight(1f)
@@ -234,47 +236,51 @@ fun TodayAirPollution(
 ) {
     val airDataList = airData.list
 
-    val localDensity = LocalDensity.current
-    var boxHeight by remember { mutableStateOf(0.dp) }
-    val itemHeight = 75.dp
-
     LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 8.dp)
-            .onGloballyPositioned { coordinates ->
-                boxHeight = with(localDensity) { coordinates.size.height.toDp() }
-                Log.d("DİĞER", "$boxHeight")
-            }
+            .padding(8.dp)
     ) {
         items(airDataList.size) { index ->
             val air = airDataList[index]
-            val imageResId = when (air.main.aqi) {
-                1 -> R.drawable.good // En iyi değer
-                2 -> R.drawable.fair
-                3 -> R.drawable.moderate
-                4 -> R.drawable.poor
-                5 -> R.drawable.very_poor // En kötü değer
+            var imageResId = 0
+            var aqiType = "no-data"
+
+            when (air.main.aqi) {
+                1 -> {
+                    imageResId = R.drawable.good
+                    aqiType = "Good"
+                }
+
+                2 -> {
+                    imageResId = R.drawable.fair
+                    aqiType = "Fair"
+                }
+
+                3 -> {
+                    imageResId = R.drawable.moderate
+                    aqiType = "Moderate"
+                }
+
+                4 -> {
+                    imageResId = R.drawable.poor
+                    aqiType = "Poor"
+                }
+
+                5 -> {
+                    imageResId = R.drawable.very_poor
+                    aqiType = "Very Poor"
+                }
+
                 else -> R.drawable.no_data
             }
 
-            val sectionHeight = (boxHeight - itemHeight) / 4
-            val offsetY = when (air.main.aqi) {
-                1 -> 0.dp // En iyi değer için üst konum
-                2 -> sectionHeight * 1
-                3 -> sectionHeight * 2
-                4 -> sectionHeight * 3
-                5 -> sectionHeight * 4 // En kötü değer için alt konum
-                else -> 0.dp
-            }
-
-            Log.d("DİĞER", "$offsetY")
-
             AirPollutionForecastItem(
-                iconResId = imageResId,
                 hour = DateTimeUtils.convertEpochToLocalTime(air.dt),
-                itemHeight = 75.dp,
-                offSetY = offsetY
+                iconResId = imageResId,
+                type = aqiType,
             )
         }
     }
@@ -282,173 +288,31 @@ fun TodayAirPollution(
 
 @Composable
 fun AirPollutionForecastItem(
-    iconResId: Int,
     hour: String,
-    itemHeight: Dp,
-    offSetY: Dp
+    iconResId: Int,
+    type: String,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .height(itemHeight)
-            .offset(y = offSetY)
+        modifier = Modifier.width(100.dp)
     ) {
-        Image(
-            painter = painterResource(id = iconResId),
-            contentDescription = "Air Quality",
-            modifier = Modifier
-                .weight(1f)
-                .aspectRatio(1f)
-        )
         Text(
             text = hour,
             style = MaterialTheme.typography.bodySmall,
             color = Color.White,
-            fontSize = 12.sp
-        )
-    }
-}
-
-// UNDER 600dp
-
-@Composable
-fun AirQualitySectionLowHeight(viewModel: WeatherViewModel) {
-    val airState by viewModel.airData.collectAsState()
-
-    Column(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = "Air Pollution",
-            color = MaterialTheme.colorScheme.tertiary,
             fontSize = 16.sp
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = MaterialTheme.colorScheme.secondaryContainer,
-                    shape = RoundedCornerShape(15.dp)
-                )
-                .padding(4.dp) // Yüksekliği ayarlamak için padding ekleyebilirsiniz
-        ) {
-            when (airState) {
-                is Resource.Loading -> {
-                    CircularProgressIndicator()
-                }
-
-                is Resource.Success -> {
-                    val pollutionData = airState.data?.toCurrentAirPollution()
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            painter = painterResource(id = R.drawable.poor),
-                            contentDescription = "",
-                            modifier = Modifier
-                                .fillMaxWidth(0.4f)
-                                .aspectRatio(1f)
-                        )
-
-                        val pollutant = pollutionData?.components
-
-                        LazyColumn(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 8.dp), // Row içindeki boşlukları ayarlayın
-                            verticalArrangement = Arrangement.SpaceEvenly,
-                        ) {
-                            items(4) { index ->
-                                when (index) {
-                                    0 -> AirPollutionDetailsItemLowHeight(
-                                        pollutant = stringResource(id = R.string.NO2),
-                                        value = pollutant!!.no2
-                                    )
-                                    1 -> AirPollutionDetailsItemLowHeight(
-                                        pollutant = stringResource(id = R.string.PM10),
-                                        value = pollutant!!.pm10
-                                    )
-                                    2 -> AirPollutionDetailsItemLowHeight(
-                                        pollutant = stringResource(id = R.string.O3),
-                                        value = pollutant!!.o3
-                                    )
-                                    3 -> AirPollutionDetailsItemLowHeight(
-                                        pollutant = stringResource(id = R.string.PM2_5),
-                                        value = pollutant!!.pm2_5
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-
-                is Resource.Error -> {
-                    Text("Error: ${airState.message}")
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun AirPollutionDetailsItemLowHeight(pollutant: String, value: Double) {
-    val pollutantIconResId = when (pollutant) {
-        stringResource(id = R.string.PM10) -> R.drawable.exhaust_pipe       // NO2
-        stringResource(id = R.string.NO2) -> R.drawable.dust                // PM10
-        stringResource(id = R.string.O3) -> R.drawable.ozone                // O3
-        stringResource(id = R.string.PM2_5) -> R.drawable.inhale            // PM2.5
-        else -> R.drawable.no_data          // Unknown
-    }
-
-    val pollutantString = buildAnnotatedString {
-        val parts = pollutant.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)|_".toRegex())
-        append(parts[0])
-        if (parts.size > 1) {
-            withStyle(
-                style = SpanStyle(
-                    fontSize = 14.sp,
-                    baselineShift = BaselineShift.Subscript
-                )
-            ) {
-                parts.drop(1).forEach {
-                    append(it.replace("_", "."))
-                }
-            }
-        }
-    }
-
-    Row(
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    ) {
         Image(
-            painter = painterResource(id = pollutantIconResId),
-            contentDescription = "$pollutant Icon",
-            modifier = Modifier.size(24.dp)
+            painter = painterResource(id = iconResId),
+            contentDescription = "Air Quality",
+            modifier = Modifier.aspectRatio(1f)
         )
-
         Text(
-            text = pollutantString,
+            text = type,
+            style = MaterialTheme.typography.bodySmall,
             color = Color.White,
-            fontSize = 18.sp,
-            fontFamily = bodyFontFamily,
-            modifier = Modifier
-                .padding(start = 8.dp)
-                .weight(1f)
-        )
-
-        Text(
-            text = "%.2f".format(value),
-            color = Color.White,
-            fontSize = 18.sp,
-            fontFamily = displayFontFamily,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.weight(1f)
+            fontSize = 18.sp
         )
     }
 }
