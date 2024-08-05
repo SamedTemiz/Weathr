@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -36,6 +38,7 @@ fun WeatherDetailsCard(
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .height(150.dp)
             .background(
                 color = MaterialTheme.colorScheme.secondaryContainer,
                 shape = RoundedCornerShape(20.dp)
@@ -46,7 +49,7 @@ fun WeatherDetailsCard(
             horizontalArrangement = Arrangement.SpaceAround,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp)
+                .padding(vertical = 20.dp)
         ) {
             WeatherDetailItem(
                 icon = R.drawable.wind,
@@ -75,31 +78,71 @@ fun WeatherDetailItem(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxHeight()
     ) {
         Image(
             painter = painterResource(id = icon),
             contentDescription = "Component",
-            modifier = Modifier.size(32.dp)
+            modifier = Modifier.size(48.dp)
         )
 
-        Spacer(Modifier.height(2.dp))
         Text(
             text = value,
             style = TextStyle(
-                fontSize = 16.sp,
+                fontSize = 20.sp,
                 fontFamily = bodyFontFamily,
                 color = MaterialTheme.colorScheme.tertiary
             )
         )
 
-        Spacer(Modifier.height(2.dp))
         Text(
             text = description,
             style = TextStyle(
-                fontSize = 14.sp,
+                fontSize = 16.sp,
                 fontFamily = bodyFontFamily,
                 color = Color.Gray
             )
         )
+    }
+}
+
+@Preview
+@Composable
+fun WeatherDetailsCardPreview() {
+    WeathrTheme {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(110.dp)
+                .background(
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(20.dp)
+                )
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(vertical = 12.dp)
+            ) {
+                WeatherDetailItem(
+                    icon = R.drawable.wind,
+                    value = "12 m/s",
+                    description = "Wind"
+                )
+                WeatherDetailItem(
+                    icon = R.drawable.humidity,
+                    value = "75%",
+                    description = "Humidity"
+                )
+                WeatherDetailItem(
+                    icon = R.drawable.rainprep,
+                    value = "36%",
+                    description = "Rain"
+                )
+            }
+        }
     }
 }

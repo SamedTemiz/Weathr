@@ -59,7 +59,7 @@ fun DayItem(day: Day, isFirst: Boolean = false) {
         Text(
             text = if(isFirst) DateTimeUtils.getLocalizedTodayName() else DateTimeUtils.getDayName(day.datetime),
             style = TextStyle(
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.tertiary
             ),
             modifier = Modifier.weight(1f)
@@ -73,7 +73,7 @@ fun DayItem(day: Day, isFirst: Boolean = false) {
             Text(
                 text = "${day.tempmin.toInt()}°",
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     color = Color.Gray
                 )
             )
@@ -107,7 +107,7 @@ fun DayItem(day: Day, isFirst: Boolean = false) {
             Text(
                 text = "${day.tempmax.toInt()}°",
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     color = MaterialTheme.colorScheme.tertiary
                 )
             )
@@ -116,7 +116,7 @@ fun DayItem(day: Day, isFirst: Boolean = false) {
         AsyncImage(
             model = "$ASSETS_BASE_URL${day.icon}.png",
             contentDescription = "Icon",
-            modifier = Modifier.size(34.dp),
+            modifier = Modifier.size(42.dp),
             contentScale = ContentScale.Fit
         )
     }
