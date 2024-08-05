@@ -1,14 +1,13 @@
 package com.timrashard.weathr.presentation.weathr.home
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -29,8 +30,8 @@ import com.timrashard.weathr.presentation.weathr.Screen
 import com.timrashard.weathr.presentation.weathr.WeatherViewModel
 import com.timrashard.weathr.presentation.weathr.home.sections.AirQualitySection
 import com.timrashard.weathr.presentation.weathr.home.sections.ForecastSection
+import com.timrashard.weathr.presentation.weathr.home.sections.OtherConditionsSection
 import com.timrashard.weathr.presentation.weathr.home.sections.TemperatureSection
-import com.timrashard.weathr.presentation.weathr.home.sections.lowheight.AirQualitySectionLowHeight
 import com.timrashard.weathr.utils.DateTimeUtils
 
 @Composable
@@ -47,7 +48,6 @@ fun HomeScreen(
         color = MaterialTheme.colorScheme.secondary
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
@@ -70,16 +70,24 @@ fun HomeScreen(
                         }
                     )
 
-                    TemperatureSection(viewModel, weatherData!!.currentConditions)
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        TemperatureSection(
+                            viewModel,
+                            weatherData!!.currentConditions
+                        ) // Image Height
 
-                    WeatherDetailsCard(weatherData.currentConditions)
+                        WeatherDetailsCard(weatherData.currentConditions) // 110.dp
 
-                    ForecastSection(weatherData.days)
+//                        ForecastSection(weatherData.days) // 200.dp
 
-                    if(configuration.screenHeightDp < 800){
-                        AirQualitySectionLowHeight(viewModel)
-                    }else{
-                        AirQualitySection(viewModel)
+//                        AirQualitySection(viewModel) // 275.dp
+
+                        OtherConditionsSection()
                     }
                 }
 

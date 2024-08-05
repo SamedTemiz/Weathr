@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -50,7 +52,7 @@ fun HourlyForecastList(hours: List<Hour>, isToday: Boolean = false) {
     }
 
     LazyRow(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(hours.drop(startHour)) { hourlyData ->
@@ -103,6 +105,8 @@ fun ForecastItem(
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
+            .fillMaxSize()
+            .aspectRatio(0.75f)
             .background(
                 color = MaterialTheme.colorScheme.secondaryContainer,
                 shape = RoundedCornerShape(20.dp)
@@ -112,7 +116,6 @@ fun ForecastItem(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
-                .width(100.dp)
                 .padding(vertical = 20.dp)
         ) {
             Text(
@@ -123,7 +126,7 @@ fun ForecastItem(
                     "dd MMMM"
                 ),
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     fontFamily = bodyFontFamily,
                     color = Color.Gray
                 )
@@ -136,14 +139,14 @@ fun ForecastItem(
                     .crossfade(true)
                     .build(),
                 contentDescription = "Icon",
-                modifier = Modifier.size(36.dp)
+                modifier = Modifier.size(48.dp)
             )
 
             Spacer(Modifier.height(8.dp))
             Text(
                 text = temp,
                 style = TextStyle(
-                    fontSize = 18.sp,
+                    fontSize = 20.sp,
                     fontFamily = bodyFontFamily,
                     color = MaterialTheme.colorScheme.tertiary
                 )
