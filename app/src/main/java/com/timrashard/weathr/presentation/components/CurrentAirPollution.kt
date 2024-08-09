@@ -33,6 +33,15 @@ import com.timrashard.weathr.presentation.theme.displayFontFamily
 
 @Composable
 fun CurrentAirPollution(airData: CurrentAirPollution) {
+    val (qualityIconId, qualityText) = when (airData.index) {
+        1 -> Pair(R.drawable.good, stringResource(id = R.string.good))
+        2 -> Pair(R.drawable.fair, stringResource(id = R.string.fair))
+        3 -> Pair(R.drawable.moderate, stringResource(id = R.string.moderate))
+        4 -> Pair(R.drawable.poor, stringResource(id = R.string.poor))
+        5 -> Pair(R.drawable.very_poor, stringResource(id = R.string.very_poor))
+        else -> Pair(R.drawable.no_data, "No Data")
+    }
+
     val pollutant = airData.components
 
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -44,17 +53,17 @@ fun CurrentAirPollution(airData: CurrentAirPollution) {
                 .fillMaxHeight()
         ) {
             Image(
-                painter = painterResource(id = R.drawable.very_poor),
+                painter = painterResource(id = qualityIconId),
                 contentDescription = "",
                 modifier = Modifier
-                    .fillMaxWidth(0.8f)
+                    .fillMaxWidth(0.7f)
                     .aspectRatio(1f)
             )
 
             Text(
-                text = "Very Poor",
+                text = qualityText,
                 style = TextStyle(
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontFamily = displayFontFamily,
                     color = MaterialTheme.colorScheme.tertiary
                 )
@@ -131,7 +140,7 @@ fun AirPollutionDetailsItem(pollutant: String, value: Double) {
         Image(
             painter = painterResource(id = pollutantIconResId),
             contentDescription = "$pollutant Icon",
-            modifier = Modifier.size(32.dp)
+            modifier = Modifier.size(24.dp)
         )
 
         Text(
@@ -147,10 +156,12 @@ fun AirPollutionDetailsItem(pollutant: String, value: Double) {
         Text(
             text = "%.2f".format(value),
             color = Color.White,
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             fontFamily = displayFontFamily,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.weight(1f)
+            textAlign = TextAlign.Left,
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 8.dp)
         )
     }
 }

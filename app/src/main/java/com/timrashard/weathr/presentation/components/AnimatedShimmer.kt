@@ -153,7 +153,7 @@ fun WeatherDetailsShimmer(brush: Brush) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.secondaryContainer)
+            .background(color = MaterialTheme.colorScheme.secondaryContainer, shape = RoundedCornerShape(20.dp))
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -193,19 +193,19 @@ fun ForecastShimmer(brush: Brush) {
         ) {
             Spacer(
                 modifier = Modifier
-                    .width(100.dp)
+                    .weight(1f)
                     .height(15.dp)
                     .background(brush)
             )
             Spacer(
                 modifier = Modifier
-                    .width(75.dp)
+                    .weight(1f)
                     .height(15.dp)
                     .background(brush)
             )
             Spacer(
                 modifier = Modifier
-                    .width(50.dp)
+                    .weight(1f)
                     .height(15.dp)
                     .background(brush)
             )
@@ -219,7 +219,7 @@ fun ForecastShimmer(brush: Brush) {
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxWidth()
 

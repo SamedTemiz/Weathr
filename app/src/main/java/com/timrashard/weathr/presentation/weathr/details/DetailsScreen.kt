@@ -35,7 +35,7 @@ fun DetailsScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
         ) {
             when (weatherState) {
                 is Resource.Loading -> {

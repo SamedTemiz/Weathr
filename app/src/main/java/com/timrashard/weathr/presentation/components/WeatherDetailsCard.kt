@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,14 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.timrashard.weathr.R
 import com.timrashard.weathr.data.model.CurrentConditions
-import com.timrashard.weathr.presentation.theme.WeathrTheme
 import com.timrashard.weathr.presentation.theme.bodyFontFamily
-import com.timrashard.weathr.presentation.weathr.WeatherViewModel
 
 @Composable
 fun WeatherDetailsCard(
@@ -44,28 +39,32 @@ fun WeatherDetailsCard(
                 shape = RoundedCornerShape(20.dp)
             )
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 20.dp)
-        ) {
-            WeatherDetailItem(
-                icon = R.drawable.wind,
-                value = "${currentConditions!!.windspeed.toInt()} m/s",
-                description = "Wind"
-            )
-            WeatherDetailItem(
-                icon = R.drawable.humidity,
-                value = "${currentConditions.humidity.toInt()}%",
-                description = "Humidity"
-            )
-            WeatherDetailItem(
-                icon = R.drawable.rainprep,
-                value = "${currentConditions.precipprob.toInt()}%",
-                description = "Rain"
-            )
+        currentConditions?.let { data ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp)
+            ) {
+                WeatherDetailItem(
+                    icon = R.drawable.wind,
+                    value = "${data.windspeed.toInt()} m/s",
+                    description = "Wind"
+                )
+                WeatherDetailItem(
+                    icon = R.drawable.humidity,
+                    value = "${data.humidity.toInt()}%",
+                    description = "Humidity"
+                )
+                WeatherDetailItem(
+                    icon = R.drawable.rainprep,
+                    value = "${data.precipprob.toInt()}%",
+                    description = "Rain"
+                )
+            }
+        } ?: run {
+            CircularProgressComponent()
         }
     }
 }
@@ -104,45 +103,5 @@ fun WeatherDetailItem(
                 color = Color.Gray
             )
         )
-    }
-}
-
-@Preview
-@Composable
-fun WeatherDetailsCardPreview() {
-    WeathrTheme {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(110.dp)
-                .background(
-                    color = MaterialTheme.colorScheme.secondaryContainer,
-                    shape = RoundedCornerShape(20.dp)
-                )
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceAround,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(vertical = 12.dp)
-            ) {
-                WeatherDetailItem(
-                    icon = R.drawable.wind,
-                    value = "12 m/s",
-                    description = "Wind"
-                )
-                WeatherDetailItem(
-                    icon = R.drawable.humidity,
-                    value = "75%",
-                    description = "Humidity"
-                )
-                WeatherDetailItem(
-                    icon = R.drawable.rainprep,
-                    value = "36%",
-                    description = "Rain"
-                )
-            }
-        }
     }
 }

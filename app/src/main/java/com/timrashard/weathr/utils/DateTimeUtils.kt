@@ -5,6 +5,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import java.util.Locale
 
 object DateTimeUtils {
@@ -24,6 +25,16 @@ object DateTimeUtils {
         } catch (e: Exception) {
             "Invalid date"
         }
+    }
+
+    fun formatTime(time: String, format: String): String {
+        val inputFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+
+        val date = inputFormat.parse(time)
+
+        val outputFormat = SimpleDateFormat(format, Locale.getDefault())
+
+        return outputFormat.format(date ?: Date())
     }
 
     fun formatDateWithDayName(date: String): String {

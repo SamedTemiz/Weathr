@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,13 +21,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
@@ -38,6 +37,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.timrashard.weathr.R
 import com.timrashard.weathr.common.Resource
 import com.timrashard.weathr.data.model.air.toCurrentAirPollution
+import com.timrashard.weathr.presentation.components.CircularProgressComponent
 import com.timrashard.weathr.presentation.components.CurrentAirPollution
 import com.timrashard.weathr.presentation.weathr.WeatherViewModel
 
@@ -49,7 +49,7 @@ fun AirQualitySection(viewModel: WeatherViewModel) {
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .height(275.dp)
+            .height(250.dp)
             .background(
                 color = MaterialTheme.colorScheme.secondaryContainer,
                 shape = RoundedCornerShape(15.dp)
@@ -66,7 +66,7 @@ fun AirQualitySection(viewModel: WeatherViewModel) {
 
             when (airState) {
                 is Resource.Loading -> {
-                    CircularProgressIndicator()
+                    CircularProgressComponent()
                 }
 
                 is Resource.Success -> {
@@ -109,9 +109,9 @@ fun AirQualityHeader(modifier: Modifier) {
             
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Air Quality",
+                text = stringResource(R.string.air_quality),
                 color = Color.Gray,
-                fontSize = 18.sp
+                fontSize = 16.sp
             )
         }
         
@@ -138,16 +138,16 @@ fun LottieBackground() {
     val speed by remember { mutableFloatStateOf(1.5f) }
 
     Box(Modifier.fillMaxSize()) {
-        LottieAnimation(
-            composition = bottomLeft,
-            iterations = LottieConstants.IterateForever,
-            contentScale = ContentScale.FillBounds,
-            speed = speed,
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .clip(RoundedCornerShape(topStart = 15.dp, bottomStart = 15.dp))
-                .fillMaxSize()
-        )
+//        LottieAnimation(
+//            composition = bottomLeft,
+//            iterations = LottieConstants.IterateForever,
+//            contentScale = ContentScale.FillBounds,
+//            speed = speed,
+//            modifier = Modifier
+//                .align(Alignment.BottomStart)
+//                .clip(RoundedCornerShape(topStart = 15.dp, bottomStart = 15.dp))
+//                .fillMaxSize()
+//        )
 
         LottieAnimation(
             composition = topRight,

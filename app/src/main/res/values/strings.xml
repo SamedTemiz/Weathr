@@ -15,4 +15,41 @@
     <string name="PM10">PM10</string>
     <string name="O3">O3</string>
     <string name="PM2_5">PM2.5</string>
+
+<!--    Direction Names-->
+    <string name="north">North</string>
+    <string name="north_east">North East</string>
+    <string name="east">East</string>
+    <string name="south_east">South East</string>
+    <string name="south">South</string>
+    <string name="south_west">South West</string>
+    <string name="west">West</string>
+    <string name="north_west">North West</string>
+
+<!--    Condition Names-->
+    <string name="feels_like">Feels Like</string>
+    <string name="solar_radiation">Solar Radiation</string>
+    <string name="uv_index">UV Index</string>
+    <string name="pressure">Pressure</string>
+    <string name="visibility">Visibility</string>
+
+<!--    Air Quality Index Names-->
+    <string name="good">Good</string>
+    <string name="fair">Fair</string>
+    <string name="moderate">Moderate</string>
+    <string name="poor">Poor</string>
+    <string name="very_poor">Very Poor</string>
+
+<!--    Data Source Website Name-->
+    <string name="visualcrossing">vissualcrossing</string>
+    <string name="openWeather">OpenWeather</string>
+
+<!--    General UI-->
+    <string name="searcing">Searching...</string>
+
+<!--    General Header-->
+    <string name="air_quality">Air Quality</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="data_sourced_from">Data sourced from</string>
 </resources>

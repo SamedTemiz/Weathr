@@ -1,7 +1,5 @@
 package com.timrashard.weathr.presentation.weathr.home.sections
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,9 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
@@ -37,7 +32,6 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.timrashard.weathr.R
-import com.timrashard.weathr.common.Constant.ASSETS_BASE_URL
 import com.timrashard.weathr.data.model.CurrentConditions
 import com.timrashard.weathr.presentation.components.ParallaxEffect
 import com.timrashard.weathr.presentation.theme.bodyFontFamily
@@ -130,43 +124,3 @@ fun TemperatureSection(
         }
     }
 }
-
-@Preview
-@Composable
-fun TemperatureSection() {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                text = "37°",
-                style = TextStyle(
-                    fontSize = 96.sp,
-                    fontFamily = displayFontFamily,
-                    color = MaterialTheme.colorScheme.tertiary
-                )
-            )
-            Text(
-                text = "Partly Cloudy",
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontFamily = bodyFontFamily,
-                    color = Color.Gray
-                )
-            )
-        }
-
-        Image(
-            painter = painterResource(id = R.drawable.partly_cloudy_day),
-            contentDescription = "Weather Image",
-            modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .aspectRatio(1f)
-        )
-    }
-}
-

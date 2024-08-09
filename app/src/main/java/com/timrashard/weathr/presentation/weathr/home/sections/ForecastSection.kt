@@ -47,7 +47,7 @@ fun ForecastSection(days: List<Day>) {
             when (page) {
                 0 -> HourlyForecastList(days.first().hours, isToday = true) // Today
                 1 -> HourlyForecastList(days[1].hours, isToday = false)     // Tomorrow
-                2 -> DailyForecastList(days)                                // Next 10 days
+                2 -> DailyForecastList(days)                                // Next 14 days
             }
         }
     }
