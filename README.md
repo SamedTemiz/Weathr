@@ -8,7 +8,7 @@ I designed an application that displays weather information using a design I fou
 ## Screenshots
 Here are some screenshots of the application showcasing its features:
 
-<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+<div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
 
   ### Home Screen 1
   <img src="https://github.com/user-attachments/assets/5842bdcc-a9cf-4fdc-87b9-0beee9136509" alt="Home Screen" width="300" />
