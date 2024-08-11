@@ -12,7 +12,7 @@ Here are some screenshots of the application showcasing its features:
 | ------------- | ------------- |
 | <img src="https://github.com/user-attachments/assets/5842bdcc-a9cf-4fdc-87b9-0beee9136509" alt="Home Screen 1" width="300"/> | <img src="https://github.com/user-attachments/assets/e62c9057-f371-4285-b81f-75fda6c53835" alt="Home Screen 2" width="300"/> |
 
-| Detail Screen | Features |
+| Details Screen | Features |
 | ------------- | ------------- |
 | <img src="https://github.com/user-attachments/assets/d5e14104-184d-4808-917d-608171eb5d8e" alt="Detail Screen" width="300"/> | <img src="https://github.com/user-attachments/assets/4dc6a51d-49a9-417a-8783-ce2617f5f160" alt="Features" width="300"/> |
 
